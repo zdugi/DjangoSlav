@@ -1,13 +1,1 @@
-Platforma/Platforma/__init__.pyc
-Platforma/Platforma/settings.py
-Platforma/Platforma/settings.pyc
-Platforma/Platforma/urls.pyc
-Platforma/Platforma/wsgi.pyc
-Platforma/interface/__init__.pyc
-Platforma/interface/admin.pyc
-Platforma/interface/migrations/0001_initial.pyc
-Platforma/interface/migrations/0002_auto_20170221_2149.pyc
-Platforma/interface/migrations/__init__.pyc
-Platforma/interface/models.pyc
-Platforma/interface/urls.pyc
-Platforma/interface/views.pyc
+*.pyc
