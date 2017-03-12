@@ -1,0 +1,30 @@
+{% extends "./includes/master.html" %}
+
+{% block link %}
+	
+{% endblock %}
+
+{% block title %} Platform {% endblock %}
+
+{% block platformActivate %}class="active"{% endblock %}
+
+{% block content %}
+<div class="table-responsive">
+	<table class="table table-bordered table-hover">
+		<thead>
+		  <tr>
+			<th>Datum kreiranja</th>
+			<th>Naziv</th>
+			<th>Opis</th>
+		  </tr>
+		</thead>
+		{% for experiment in experiments%}
+			<tr>
+				<td>{{ experiment.datum_kreiranja|date:"Y-m-d" }}</td>
+				<td>{{ experiment.naziv }}</td>
+				<td>{{ experiment.opis }}</td>
+			</tr>
+		{% endfor %}
+	</table>
+</div>
+{% endblock %}

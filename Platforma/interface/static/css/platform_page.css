@@ -1,0 +1,21 @@
+#video > div, #about {
+	padding: 20px;
+}
+
+.paleta {
+	padding: 10px;
+	padding-bottom: 20px;
+	background: #ddd;
+}
+
+.paleta > div, .box > div{
+	display: inline;
+}
+
+.num_val {
+	margin-left: 7px;
+}
+
+.stats {
+	padding: 10px;
+}

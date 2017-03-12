@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+		{% load staticfiles %}
+		<link rel="shortcut icon" type="image/x-icon" href="{% static '/favicon.ico' %}" />
+
+		<!-- jquery -->
+		<script src="http://code.jquery.com/jquery-3.1.1.js" integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA=" crossorigin="anonymous"></script>
+
+		<!-- Latest compiled and minified CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+		<!-- Optional theme -->
+		<!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">-->
+
+		<!-- Latest compiled and minified JavaScript -->
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+		{% load staticfiles %}
+		<link rel="stylesheet" type="text/css" href="{% static '/css/login.css' %}">
+		<title>Register</title>
+	</head>
+	<body>
+		<div class="general">
+			<form action="#" method="POST">
+			{% csrf_token %}
+				<div class="form-group">
+    				<div class="input-group">
+     					<div class="input-group-addon"><span class="glyphicon glyphicon-user" arial-hidden="true"></span></div>
+      					<input type="text" class="form-control" placeholder="Korisničko ime" name = "username">
+    				</div>
+					<br>
+					<div class="input-group">
+     					<div class="input-group-addon"><span class="glyphicon glyphicon-envelope" arial-hidden="true"></span></div>
+      					<input type="text" class="form-control" placeholder="Email" name = "email">
+    				</div>
+    				<br>
+    				<div class="input-group">
+     					<div class="input-group-addon"><span class="glyphicon glyphicon-lock" arial-hidden="true"></span></div>
+      					<input type="password" class="form-control" placeholder="Šifra" name = "password1">
+    				</div>
+					<br>
+					<div class="input-group">
+     					<div class="input-group-addon"><span class="glyphicon glyphicon-lock" arial-hidden="true"></span></div>
+      					<input type="password" class="form-control" placeholder="Ponovi šifru" name = "password2">
+    				</div>
+  				</div>
+				{% if register_error == True %}
+				<div class="alert alert-danger" role="alert">
+					<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+					<span class="sr-only">Error:</span>
+					{% if name_error == True %}
+						{{error_message}}
+					{% else %}
+						Greška pri registraciji!
+					{% endif %}
+				</div>
+				{% endif %}
+  				<!--<p>Forgot password?</p>-->
+  				<br>
+  				<button type="submit" class="btn btn-primary" style="width:100%">Registruj</button>
+			</form>
+		</div>
+	</body>
+</html>

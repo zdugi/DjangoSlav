@@ -1,0 +1,41 @@
+{% extends "./includes/master.html" %}
+
+{% block link %}
+	{% load staticfiles %} 
+		<link rel="stylesheet" type="text/css" href="{% static '/css/platform_page.css' %}">
+{% endblock %}
+
+{% block title %} 
+	Experiment name	
+{% endblock %}
+
+{% block content %}
+	<div id="display">
+		<div id="video" class="embed-responsive embed-responsive-16by9">
+			<iframe src="https://www.youtube.com/embed/SyzhyP7G_3o" frameborder="0" allowfullscreen></iframe>
+		</div>
+		<div class="paleta">
+			<div class="box">
+				<div class="stats views" style="width:100px"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span><span class="num_val">213213231</span></div>
+				<div class="stats inqueue" style="width:100px"><span class="glyphicon glyphicon-equalizer" aria-hidden="true"></span><span class="num_val">12</span></div>
+			</div>
+			<div class="pull-right">
+				<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					Enter queue
+				</button>
+				<!--<button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					Access experiment
+				</button>-->
+				<!--<button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					Wait...(2/3)
+				</button>-->
+			</div>
+		</div>
+	</div>
+	<div id="about">
+		<div class="well">
+			<h4><b>Naslov eksperimenta</b></h4>
+			<p>Ovde ide opis eksperimenta sta ti ja znam</p>
+		</div>
+	</div>
+{% endblock %}

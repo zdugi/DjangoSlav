@@ -1,0 +1,68 @@
+@media (min-width: 240px) {
+	#blok {
+		width: 100%;
+		background-color: white;
+	}
+	
+	.holder {
+		font-size: 1em;
+		text-align: justify;
+		width: 100%;
+	}
+	
+	#info h1 {
+		font-weight: bold;
+		font-size: 1.7em;
+	}
+	
+	.pic {
+		width: 100%;
+		border-bottom: 2px black solid;
+		border-right: none;
+		transition: 1s;
+	}
+}
+
+@media (min-width: 1336px) {
+	#blok {
+		width: 100%;
+		display: flex;
+		justify-content: space-between;
+		background-color: white;
+	}
+	.holder {
+		font-size: 1.5em;
+		text-align: justify;
+		width: 50%;
+	}
+	
+	#info h1 {
+		font-weight: bold;
+		font-size: 2.5em;
+	}
+	
+	.pic {
+		width: 48%;
+		border-bottom: none;
+		border-right: 2px black solid;
+		transition: 1s;
+	}
+}
+
+.pic:hover {
+	transition: 1s;
+	border-color: gray;
+	opacity: 0.6;
+    filter: alpha(opacity=60);
+}
+
+.pic img {
+	width: 100%;
+}
+
+.carousel-inner > .item > img,
+  .carousel-inner > .item > a > img {
+      width: 100%;
+      margin: auto;
+ }
+ 

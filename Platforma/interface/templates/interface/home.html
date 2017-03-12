@@ -1,0 +1,76 @@
+{% extends "./includes/master.html" %}
+
+{% block link %}
+	{% load staticfiles %} 
+	<link rel="stylesheet" type="text/css" href="{% static '/css/home.css' %}">
+{% endblock %}
+
+{% block title %} 
+	Home 
+{% endblock %}
+
+{% block homeActivate %}
+	class="active"
+{% endblock %}
+
+{% block content %}
+	<div id="myCarousel" class="carousel slide" data-ride="carousel">
+	<!-- Indicators -->
+		<ol class="carousel-indicators">
+			<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+			<li data-target="#myCarousel" data-slide-to="1"></li>
+			<li data-target="#myCarousel" data-slide-to="2"></li>
+			<li data-target="#myCarousel" data-slide-to="3"></li>
+		</ol>
+
+		<!-- Wrapper for slides -->
+		<div class="carousel-inner" role="listbox">
+			{% load staticfiles %} 
+			<div class="item active">
+				<img src="{% static '/pics/prva.jpg' %}" alt="pics">
+			</div>
+
+			<div class="item">
+				<img src="{% static '/pics/druga.jpg' %}" alt="pics">
+			</div>
+
+			<div class="item">
+				<img src="{% static '/pics/treca.jpg' %}" alt="pics">
+			</div>
+
+			<div class="item">
+				<img src="{% static '/pics/cetvrta.jpg' %}" alt="pics">
+			</div>
+		</div>
+
+		<!-- Left and right controls -->
+		<a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+			<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+		</a>
+		<a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+			<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+		</a>
+	</div>
+	<div id="about">
+		<div id="info" class="well">
+			<h1>DOBRODOŠLI NA PLATFORMU ELEKTROLIT</h1>
+			</br>
+			<div id="blok" class="well">
+				<div class="pic">
+					<img src="{% static '/pics/pie.jpg' %}">
+				</div>
+				<div class="holder">
+					<p>
+						Lorem Ipsum je jednostavno model teksta koji se koristi u štamparskoj i 
+						slovoslagačkoj industriji. Lorem ipsum je bio standard za model teksta još od 1500. godine,
+						kada je nepoznati štampar uzeo kutiju sa slovima i složio ih kako bi napravio uzorak knjige.
+						Ne samo što je ovaj model opstao pet vekova, nego je čak počeo da se koristi i u elektronskim medijima,
+						nepromenivši se. 
+						Popularizovan je šezdesetih godina dvadesetog veka zajedno sa listovima leterseta koji su sadržali Lorem Ipsum pasuse,
+						a danas sa softverskim paketom za prelom kao što je Aldus PageMaker koji je sadržao Lorem Ipsum verzije.
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

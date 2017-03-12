@@ -1,0 +1,17 @@
+html,
+body {
+  height: 100%;
+  /* The html and body elements cannot have any padding or margin. */
+}
+
+body {
+	background: #ddd;
+}
+
+.general {
+	width: 400px;
+	margin: 100px auto;
+	background: #fff;
+	padding: 20px;
+	border: 3px solid #333;
+}
