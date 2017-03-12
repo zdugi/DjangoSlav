@@ -1,4 +1,2 @@
 # DjangoSlav
 Web Platform
-radi
- 
