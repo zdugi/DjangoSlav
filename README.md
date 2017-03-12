@@ -1,5 +1,5 @@
 # DjangoSlav
 Web Platform
 radi
-novi red
+novi red - Zdravko
  
