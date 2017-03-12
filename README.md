@@ -1,2 +1,3 @@
 # DjangoSlav
-Volim te 
+Web Platform
+ 
