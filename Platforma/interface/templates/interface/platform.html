@@ -24,7 +24,7 @@
 					<tr>
 						<td>{{ experiment.datum_kreiranja|date:"Y-m-d" }}</td>
 						{% if content.isLogin == True %}
-							<td><a href="/platform/{{experiment.port}}">{{ experiment.naziv }}</a></td>
+							<td><a href="/platform/{{experiment.id}}">{{ experiment.naziv }}</a></td>
 						{% else %}
 							<td>{{ experiment.naziv }}</td>
 						{% endif %}
