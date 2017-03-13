@@ -49,6 +49,18 @@
 	}
 }
 
+.well {
+	background-color: white;
+}
+
+#info {
+	border: none;
+}
+
+#blok {
+	border: none;
+}
+
 .pic:hover {
 	transition: 1s;
 	border-color: gray;

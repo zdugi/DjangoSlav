@@ -10,6 +10,7 @@
 
 {% block content %}
 	<div class="container">
+		<h1>PRIKAZ SVIH EKSPERIMENATA</h1>
 		<div class="table-responsive">
 			<table class="table table-bordered table-hover">
 				<thead>
@@ -22,7 +23,11 @@
 				{% for experiment in experiments%}
 					<tr>
 						<td>{{ experiment.datum_kreiranja|date:"Y-m-d" }}</td>
-						<td>{{ experiment.naziv }}</td>
+						{% if content.isLogin == True %}
+							<td><a href="/platform/{{experiment.port}}">{{ experiment.naziv }}</a></td>
+						{% else %}
+							<td>{{ experiment.naziv }}</td>
+						{% endif %}
 						<td>{{ experiment.opis }}</td>
 					</tr>
 				{% endfor %}
