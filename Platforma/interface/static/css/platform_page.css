@@ -19,3 +19,9 @@
 .stats {
 	padding: 10px;
 }
+
+.datum {
+	font-size: 15px;
+	font-style: italic;
+	color: #333;
+}

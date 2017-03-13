@@ -3,10 +3,16 @@
 {% block link %}
 	{% load staticfiles %} 
 		<link rel="stylesheet" type="text/css" href="{% static '/css/platform_page.css' %}">
+	{% load staticfiles %}
+		<script type="text/javascript" src="{% static '/js/platform_page.js' %}"></script>
+
+	<script type="text/javascript">
+		window.conf = {id:"{{content.experiment.id}}"};
+	</script>
 {% endblock %}
 
 {% block title %} 
-	Experiment name	
+	{{ content.experiment.naziv }}
 {% endblock %}
 
 {% block content %}
@@ -34,8 +40,11 @@
 	</div>
 	<div id="about">
 		<div class="well">
-			<h4><b>Naslov eksperimenta</b></h4>
-			<p>Ovde ide opis eksperimenta sta ti ja znam</p>
+			<div>
+				<h4 style="display: inline"><b>{{ content.experiment.naziv }}</b></h4>
+				<div style="display: inline; margin-left:5px"><span class="datum">{{ content.experiment.datum_kreiranja }}</span></div>
+			</div>
+			<p>{{ content.experiment.opis|linebreaks }}</p>
 		</div>
 	</div>
 {% endblock %}

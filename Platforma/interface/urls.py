@@ -8,5 +8,5 @@ urlpatterns = [
 	url(r'^register$', views.register, name='register'),
 	url(r'^support$', views.support, name='support'),
 	url(r'^platform$', views.platform, name='platform'),
-	url(r'^platform/([0-9]{4})/$', views.platform_page, name='platform_page'),
+	url(r'^platform/(\d+)/$', views.platform_page, name='platform_page'),
 ]

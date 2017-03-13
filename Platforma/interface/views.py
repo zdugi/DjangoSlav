@@ -89,6 +89,7 @@ def platform_page(request, experimentID):
 	data = dict()
 	data["content"] = dict()
 	data["content"]["isLogin"] = request.user.is_authenticated
+	data["content"]["experiment"] = Experiment.objects.get(pk=experimentID)
 	
 	return render(request, 'interface/platform_page.html', data)
 
