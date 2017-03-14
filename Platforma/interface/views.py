@@ -5,7 +5,8 @@ from django.shortcuts import redirect
 from django.contrib.auth import authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from interface.models import Experiment 
+from interface.models import Experiment
+from Utils import formatYTUrl
 # Create your views here.
 
 # @login_required(login_url='/login')
@@ -90,6 +91,13 @@ def platform_page(request, experimentID):
 	data["content"] = dict()
 	data["content"]["isLogin"] = request.user.is_authenticated
 	data["content"]["experiment"] = Experiment.objects.get(pk=experimentID)
+
+	# filter video url (just yt support!!)
+	data["content"]["experiment"].demo_video = formatYTUrl(data["content"]["experiment"].demo_video)
+
+	# racuna pregled
+	data["content"]["experiment"].broj_pregleda = data["content"]["experiment"].broj_pregleda + 1
+	Experiment.objects.filter(pk=experimentID).update(broj_pregleda=data["content"]["experiment"].broj_pregleda)
 	
 	return render(request, 'interface/platform_page.html', data)
 
@@ -97,3 +105,5 @@ def platform_page(request, experimentID):
 def logout(request):
 	django.contrib.auth.logout(request)
 	return redirect('/')
+
+# Zdravko - testing

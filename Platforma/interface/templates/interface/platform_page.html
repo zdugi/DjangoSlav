@@ -7,7 +7,7 @@
 		<script type="text/javascript" src="{% static '/js/platform_page.js' %}"></script>
 
 	<script type="text/javascript">
-		window.conf = {id:"{{content.experiment.id}}"};
+		window.conf = {id:"{{content.experiment.id}}", haveAccess: true, location:"http://{{content.experiment.adresa}}:{{content.experiment.port}}/"};
 	</script>
 {% endblock %}
 
@@ -18,23 +18,23 @@
 {% block content %}
 	<div id="display">
 		<div id="video" class="embed-responsive embed-responsive-16by9">
-			<iframe src="https://www.youtube.com/embed/SyzhyP7G_3o" frameborder="0" allowfullscreen></iframe>
+			<iframe src="{{ content.experiment.demo_video }}" frameborder="0" allowfullscreen></iframe>
 		</div>
 		<div class="paleta">
 			<div class="box">
-				<div class="stats views" style="width:100px"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span><span class="num_val">213213231</span></div>
+				<div class="stats views" style="width:100px"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span><span class="num_val">{{ content.experiment.broj_pregleda }}</span></div>
 				<div class="stats inqueue" style="width:100px"><span class="glyphicon glyphicon-equalizer" aria-hidden="true"></span><span class="num_val">12</span></div>
 			</div>
 			<div class="pull-right">
-				<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="enter">
 					Enter queue
 				</button>
-				<!--<button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				<button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="display: none" id="access">
 					Access experiment
-				</button>-->
-				<!--<button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					Wait...(2/3)
-				</button>-->
+				</button>
+				<button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="display: none" id="wait">
+					Wait...
+				</button>
 			</div>
 		</div>
 	</div>
