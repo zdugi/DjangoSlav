@@ -83,13 +83,15 @@ class Service:
 					# maybe additional msg?!
 					if self.manager.addSession(pack["value"]):
 						p = Package(self.manager.statusJSON(),PackageType.Info)
-						p.setMessage("successfuly added")
+						p.setMessage("successfully added")
 						conn.sendall(p.getJSON())
 					else:
 						p = Package(self.manager.statusJSON(),PackageType.Warn)
 						p.setMessage("unable to add")
 						conn.sendall(p.getJSON())
 				elif pack["header"]["type"] == PackageType.Info:
+					if "value" in pack["value"]:
+						self.manager.checkSession(pack["value"]["value"])
 					p = Package(self.manager.statusJSON(),PackageType.Info)
 					conn.sendall(p.getJSON())
 			else:

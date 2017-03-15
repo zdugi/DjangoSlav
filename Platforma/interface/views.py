@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 import django.contrib.auth
 from django.shortcuts import redirect
 from django.contrib.auth import authenticate
@@ -7,6 +7,18 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from interface.models import Experiment
 from Utils import formatYTUrl
+
+# service
+import socket
+import sys
+from thread import *
+import time
+import json
+from Packages.Package import Package
+from Packages.PackageType import PackageType
+from thread import *
+import hashlib
+#service
 # Create your views here.
 
 # @login_required(login_url='/login')
@@ -107,3 +119,72 @@ def logout(request):
 	return redirect('/')
 
 # Zdravko - testing
+@login_required(login_url='/login')
+def service(request):
+	if request.GET.get('eid') and request.GET.get('t'):
+		experimentID = request.GET['eid'];
+		requestType = request.GET['t']
+
+		exp = None
+
+		error = {"error": "unknown"}
+
+		try:
+			exp = Experiment.objects.get(pk=experimentID)
+		except:
+			error["error"] = "Unvalid experiment."
+			return JsonResponse(error)
+
+		API_KEY = exp.apikey
+
+		HOST = ''
+
+		ADDRESS = exp.adresa
+		PORT = 1337
+
+		s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+		token_value = hashlib.sha224(str(time.time() * 1000)).hexdigest()
+
+		data = None
+
+		if requestType == "token":
+			data = Package({'value':token_value, 'time':time.time()}, PackageType.Token) # startTime, period
+		elif requestType == "info":
+			if request.GET.get('token'):
+				data = Package({'value':request.GET['token']}, PackageType.Info)
+			else:
+				data = Package({}, PackageType.Info)
+		else:
+			error["error"] = "Unvalid request type."
+			return JsonResponse(error)
+
+		try:
+			s.bind((HOST, 0))
+			s.connect((ADDRESS, PORT))
+
+			#s.send(str.encode('Welcome, type your info\n'))
+			s.sendall(data.getJSON())
+			time.sleep(0.1)
+			data = s.recv(1024)
+			s.close();
+
+			jsonData = json.loads(data)
+
+			if requestType == "token":
+				packOut = {"token_value": None}
+
+				if "header" in jsonData and "message" in jsonData["header"] and jsonData["header"]["message"] == "successfully added":
+					packOut["token_value"] = token_value
+
+				return JsonResponse(packOut)
+
+			return JsonResponse(jsonData)
+		except socket.error as e:
+			error["error"] = "Experiment in unaccessible."
+		finally:
+			s.close()
+
+		#return HttpResponse("<p>" + exp.apikey+ " " + requestType + "</p>")
+
+	return JsonResponse(error)
