@@ -2,6 +2,7 @@ from __future__ import unicode_literals
 import random, string
 
 from django.db import models
+from django.contrib.auth.models import User
 
 def create_apikey():
         key_lenght = 32
@@ -34,3 +35,10 @@ class Experiment(models.Model):
         verbose_name = "Eksperiment"
         verbose_name_plural = "Eksperimenti"
         
+
+class Tokeni(models.Model):
+        user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+        eksperiment_id = models.ForeignKey(Experiment, on_delete=models.CASCADE)
+        startVreme = models.DateTimeField(null=False)
+        endVreme = models.DateTimeField(null=False)
+        token = models.CharField(max_length = 56, null = False)

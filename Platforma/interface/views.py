@@ -18,7 +18,6 @@ from Packages.Package import Package
 from Packages.PackageType import PackageType
 from thread import *
 import hashlib
-#service
 # Create your views here.
 
 # @login_required(login_url='/login')
