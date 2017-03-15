@@ -5,7 +5,7 @@ from django.shortcuts import redirect
 from django.contrib.auth import authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from interface.models import Experiment
+from interface.models import Experiment, Tokeni
 from Utils import formatYTUrl
 
 # service
@@ -18,6 +18,7 @@ from Packages.Package import Package
 from Packages.PackageType import PackageType
 from thread import *
 import hashlib
+import datetime
 # Create your views here.
 
 # @login_required(login_url='/login')
@@ -148,12 +149,23 @@ def service(request):
 		data = None
 
 		if requestType == "token":
+			# provera da li je vec uzeo token
+			t = datetime.datetime.now()
+
+			tokens = Tokeni.objects.filter(user_id=request.user, eksperiment_id=Experiment.objects.get(pk=experimentID), endVreme__gte=t)
+
+			if len(tokens.values()) > 0:
+				error["error"] = "Vec ste prijavljeni na eksperiment!"
+				return JsonResponse(error)
+
 			data = Package({'value':token_value, 'time':time.time()}, PackageType.Token) # startTime, period
 		elif requestType == "info":
+			# slanje direktno RPI
 			if request.GET.get('token'):
 				data = Package({'value':request.GET['token']}, PackageType.Info)
 			else:
 				data = Package({}, PackageType.Info)
+			# || varijanta - provera u nasoj bazi?!
 		else:
 			error["error"] = "Unvalid request type."
 			return JsonResponse(error)
@@ -161,8 +173,7 @@ def service(request):
 		try:
 			s.bind((HOST, 0))
 			s.connect((ADDRESS, PORT))
-
-			#s.send(str.encode('Welcome, type your info\n'))
+			
 			s.sendall(data.getJSON())
 			time.sleep(0.1)
 			data = s.recv(1024)
@@ -175,8 +186,18 @@ def service(request):
 
 				if "header" in jsonData and "message" in jsonData["header"] and jsonData["header"]["message"] == "successfully added":
 					packOut["token_value"] = token_value
+					delta = int(jsonData["value"]["exp"])
+					# ubacuje token u bazu
 
-				return JsonResponse(packOut)
+					t = datetime.datetime.now()
+					d = t + datetime.timedelta(0, delta)
+					# mozda i radi?!
+					dbToken = Tokeni(user_id=request.user, eksperiment_id=Experiment.objects.get(pk=experimentID), startVreme=t, endVreme=d, token=token_value)
+					dbToken.save()
+
+					return JsonResponse(packOut)
+
+				return JsonResponse(jsonData)
 
 			return JsonResponse(jsonData)
 		except socket.error as e:

@@ -10,7 +10,7 @@ import os
 
 print(os.getpid())
 
-manager = PlatformManager(timePerSession=0.5)
+manager = PlatformManager(timePerSession=0.1)
 service = Service(sys.path[0] + '/config.yml', manager, True)
 start_new_thread(service.run, ())
 

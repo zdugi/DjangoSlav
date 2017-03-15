@@ -82,6 +82,7 @@ class Service:
 				if pack["header"]["type"] == PackageType.Token:
 					# maybe additional msg?!
 					if self.manager.addSession(pack["value"]):
+						self.manager.calculateExp()
 						p = Package(self.manager.statusJSON(),PackageType.Info)
 						p.setMessage("successfully added")
 						conn.sendall(p.getJSON())
