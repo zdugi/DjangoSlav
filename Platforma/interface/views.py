@@ -6,7 +6,7 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from interface.models import Experiment
-from Utils import formatYTUrl
+from interface.Utils import formatYTUrl
 # Create your views here.
 
 # @login_required(login_url='/login')
