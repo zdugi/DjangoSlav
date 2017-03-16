@@ -10,7 +10,7 @@ import os
 
 print(os.getpid())
 
-manager = PlatformManager(timePerSession=0.1)
+manager = PlatformManager(timePerSession=1)
 service = Service(sys.path[0] + '/config.yml', manager, True)
 start_new_thread(service.run, ())
 
@@ -21,9 +21,10 @@ def index():
 	# set cookie
 	token = request.args.get("stoken")
 	if token != None and manager.isSessionValid(token):
-		return "<p>" + "You are welcome! " + str(token) + "(" + str(manager.getCurSessionTime()) + ")" + "</p><a href='http://localhost:5000/out?stoken=" + token + "'>Out</a>"
+		return "<p>" + "You are welcome! " + str(token) + "(" + str(manager.getCurSessionTime()) + ")" + "</p><!--<a href='http://localhost:5000/out?stoken=" + token + "'>Out</a>-->"
 	return "<p>" + "You out. " + str(token) + "</p> "
 
+'''
 @app.route("/out")
 def out():
 	token = request.args.get("stoken")
@@ -33,7 +34,7 @@ def out():
 	else:
 		return "<p>Error</p>"
 
-
+'''
 app.run()
 #p = Package("my value", PackageType.Token)
 #print(p.getJSON())
