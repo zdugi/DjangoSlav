@@ -3,6 +3,7 @@ import time, yaml, socket, sys
 from thread import *
 from Packages.Package import createPackage, Package
 from Packages.PackageType import PackageType
+from Crypto.Cipher import AES
 
 KEY_LENGTH = 32
 GLOBAL_KEY_LENGTH = 16
@@ -74,6 +75,9 @@ class Service:
 			if not data:
 				break
 
+			cipher = AES.new(self.key, AES.MODE_CFB, self.iv)
+			data = cipher.decrypt(data)
+
 			#print(createPackage(data))
 			self.manager.c.acquire()
 
@@ -82,16 +86,22 @@ class Service:
 				if pack["header"]["type"] == PackageType.Token:
 					# maybe additional msg?!
 					if self.manager.addSession(pack["value"]):
+						self.manager.calculateExp()
 						p = Package(self.manager.statusJSON(),PackageType.Info)
-						p.setMessage("successfuly added")
-						conn.sendall(p.getJSON())
+						p.setMessage("successfully added")
+						cipher = AES.new(self.key, AES.MODE_CFB, self.iv)
+						conn.sendall(cipher.encrypt(p.getJSON()))
 					else:
 						p = Package(self.manager.statusJSON(),PackageType.Warn)
 						p.setMessage("unable to add")
-						conn.sendall(p.getJSON())
+						cipher = AES.new(self.key, AES.MODE_CFB, self.iv)
+						conn.sendall(cipher.encrypt(p.getJSON()))
 				elif pack["header"]["type"] == PackageType.Info:
+					if "value" in pack["value"]:
+						self.manager.checkSession(pack["value"]["value"])
 					p = Package(self.manager.statusJSON(),PackageType.Info)
-					conn.sendall(p.getJSON())
+					cipher = AES.new(self.key, AES.MODE_CFB, self.iv)
+					conn.sendall(cipher.encrypt(p.getJSON()))
 			else:
 				print(data)
 				break

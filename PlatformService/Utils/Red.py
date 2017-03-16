@@ -7,6 +7,21 @@ class Red:
 
 		self.curSessionStartTime = None
 
+	def position(self, value):
+		#with open("log2", "a") as f:
+		#	f.write("\n[CKECK] value: " + value)
+		#	f.write("\nList: " + str(self.datas))
+		if value == '':
+			return -1
+
+		ind = -1
+
+		for i in range(0, len(self.datas)):
+			if value == self.datas[i]["value"]:
+				ind = i
+				break
+		return ind
+
 	def push(self, data):
 		self.datas.append(data)
 

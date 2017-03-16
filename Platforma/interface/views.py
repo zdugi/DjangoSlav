@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 import django.contrib.auth
 from django.shortcuts import redirect
 from django.contrib.auth import authenticate
@@ -8,6 +8,22 @@ from django.contrib.auth.models import User
 from interface.models import Experiment
 from interface.Utils import formatYTUrl
 from interface.models import PravaPristupa
+
+from interface.models import Tokeni
+
+# service
+import socket
+import sys
+from thread import *
+import time
+import json
+from Packages.Package import Package
+from Packages.PackageType import PackageType
+from thread import *
+import hashlib
+import datetime
+from Crypto.Cipher import AES
+
 # Create your views here.
 
 # @login_required(login_url='/login')
@@ -114,3 +130,97 @@ def logout(request):
 	return redirect('/')
 
 # Zdravko - testing
+@login_required(login_url='/login')
+def service(request):
+	if request.GET.get('eid') and request.GET.get('t'):
+		experimentID = request.GET['eid'];
+		requestType = request.GET['t']
+
+		exp = None
+
+		error = {"error": "unknown"}
+
+		try:
+			exp = Experiment.objects.get(pk=experimentID)
+		except:
+			error["error"] = "Unvalid experiment."
+			return JsonResponse(error)
+
+		API_KEY = exp.apikey
+
+		key = API_KEY[:32];
+		iv = API_KEY[0:16];
+
+		HOST = ''
+
+		ADDRESS = exp.adresa
+		PORT = 1337
+
+		s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+		token_value = hashlib.sha224(str(time.time() * 1000)).hexdigest()
+
+		data = None
+
+		if requestType == "token":
+			# provera da li je vec uzeo token
+			t = datetime.datetime.now()
+
+			tokens = Tokeni.objects.filter(user_id=request.user, eksperiment_id=Experiment.objects.get(pk=experimentID), endVreme__gte=t)
+
+			if len(tokens.values()) > 0:
+				error["error"] = "Vec ste prijavljeni na eksperiment!"
+				return JsonResponse(error)
+
+			data = Package({'value':token_value, 'time':time.time()}, PackageType.Token) # startTime, period
+		elif requestType == "info":
+			# slanje direktno RPI
+			if request.GET.get('token'):
+				data = Package({'value':request.GET['token']}, PackageType.Info)
+			else:
+				data = Package({}, PackageType.Info)
+			# || varijanta - provera u nasoj bazi?!
+		else:
+			error["error"] = "Unvalid request type."
+			return JsonResponse(error)
+
+		try:
+			s.bind((HOST, 0))
+			s.connect((ADDRESS, PORT))
+			
+			cipher = AES.new(key, AES.MODE_CFB, iv)
+			s.sendall(cipher.encrypt(data.getJSON()))
+			time.sleep(0.1)
+			data = s.recv(1024)
+			s.close();
+
+			cipher = AES.new(key, AES.MODE_CFB, iv)
+			jsonData = json.loads(cipher.decrypt(data))
+
+			if requestType == "token":
+				packOut = {"token_value": None}
+
+				if "header" in jsonData and "message" in jsonData["header"] and jsonData["header"]["message"] == "successfully added":
+					packOut["token_value"] = token_value
+					delta = int(jsonData["value"]["exp"])
+					# ubacuje token u bazu
+
+					t = datetime.datetime.now()
+					d = t + datetime.timedelta(0, delta)
+					# mozda i radi?!
+					dbToken = Tokeni(user_id=request.user, eksperiment_id=Experiment.objects.get(pk=experimentID), startVreme=t, endVreme=d, token=token_value)
+					dbToken.save()
+
+					return JsonResponse(packOut)
+
+				return JsonResponse(jsonData)
+
+			return JsonResponse(jsonData)
+		except socket.error as e:
+			error["error"] = "Experiment in unaccessible."
+		finally:
+			s.close()
+
+		#return HttpResponse("<p>" + exp.apikey+ " " + requestType + "</p>")
+
+	return JsonResponse(error)

@@ -9,4 +9,5 @@ urlpatterns = [
 	url(r'^support$', views.support, name='support'),
 	url(r'^platform$', views.platform, name='platform'),
 	url(r'^platform/(\d+)/$', views.platform_page, name='platform_page'),
+	url(r'^ServicePlatform$', views.service, name='service'),
 ]

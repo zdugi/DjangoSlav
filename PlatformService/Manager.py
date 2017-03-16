@@ -8,14 +8,15 @@ class PlatformManager:
 	def __init__(self, maxInQueue = None, timePerSession = None):
 		self.queue = Queue()
 
-		self.timeBlock = 300 #timePerSession 5 * 60s
+		self.timeBlock = timePerSession * 60#timePerSession 5 * 60s
+
+		self.chSession = ""
+		self.exp = None
 
 		if maxInQueue == None:
 			self.maxInQueue = 10
 		else:
 			self.maxInQueue = maxInQueue
-
-		self.timePerSession = timePerSession
 
 		self.c = threading.Condition()
 
@@ -61,6 +62,14 @@ class PlatformManager:
 		else:
 			return -1
 
+	def calculateExp(self):
+		self.exp = self.queue.size() * self.timeBlock
+
+		p = self.getCurSessionTime()
+
+		if p != -1:
+			self.exp - p
+
 	def isSessionValid(self, value):
 		#self.cistacica()
 
@@ -80,9 +89,18 @@ class PlatformManager:
 	def endSession(self, value = None):
 		return self.queue.pop()
 
+	def checkSession(self, value):
+		self.chSession = value
+
 	def statusJSON(self):
 		status = dict()
+
+		status["position"] = self.queue.position(self.chSession)
 		status["max"] = self.maxInQueue
 		status["queue"] = self.queue.size()
+
+		if self.exp != None:
+			status["exp"] = self.exp
+			self.exp = None
 
 		return status
