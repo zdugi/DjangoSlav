@@ -42,3 +42,7 @@ class Tokeni(models.Model):
         startVreme = models.DateTimeField(null=False)
         endVreme = models.DateTimeField(null=False)
         token = models.CharField(max_length = 56, null = False)
+
+class PravaPristupa(models.Model):
+        user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+        eksperiment_id = models.ForeignKey(Experiment, on_delete=models.CASCADE)

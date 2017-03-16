@@ -22,12 +22,28 @@
 				</thead>
 				{% for experiment in experiments%}
 					<tr>
+						
 						<td>{{ experiment.datum_kreiranja|date:"Y-m-d" }}</td>
-						{% if content.isLogin == True %}
+						
 							<td><a href="/platform/{{experiment.id}}">{{ experiment.naziv }}</a></td>
-						{% else %}
+							
+						
+							
+						
+						<td>{{ experiment.opis }}</td>
+					</tr>
+				{% endfor %}
+				
+				{% for experiment in experiments1%}
+					<tr>
+						
+						<td>{{ experiment.datum_kreiranja|date:"Y-m-d" }}</td>
+						
 							<td>{{ experiment.naziv }}</td>
-						{% endif %}
+							
+						
+							
+						
 						<td>{{ experiment.opis }}</td>
 					</tr>
 				{% endfor %}

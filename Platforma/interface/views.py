@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from interface.models import Experiment
 from interface.Utils import formatYTUrl
+from interface.models import PravaPristupa
 # Create your views here.
 
 # @login_required(login_url='/login')
@@ -71,7 +72,13 @@ def platform(request):
 	data = dict()
 	data["content"] = dict()
 	data["content"]["isLogin"] = request.user.is_authenticated
-	data["experiments"] = Experiment.objects.all().order_by("-datum_kreiranja")
+	currentUser = request.user
+	prava = PravaPristupa.objects.filter(user_id_id = currentUser.id).values('eksperiment_id')
+	data["experiments"] = Experiment.objects.filter(id__in = prava).order_by("-datum_kreiranja")
+	#data["experiments"] = Experiment.objects.all().order_by("-datum_kreiranja")
+	data["experiments1"] = Experiment.objects.exclude(id__in = prava).order_by("-datum_kreiranja")
+       
+                
 	
 	return render(request, 'interface/platform.html', data)
 

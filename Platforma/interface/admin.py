@@ -1,6 +1,7 @@
 from django.contrib import admin
 from interface.models import Experiment
 from interface.models import Tokeni
+from interface.models import PravaPristupa
 
 class ExperimentAdmin(admin.ModelAdmin):
     list_display = ( 'naziv', 'apikey', 'adresa', 'datum_kreiranja')
@@ -23,4 +24,5 @@ class ExperimentAdmin(admin.ModelAdmin):
             
 admin.site.register(Experiment, ExperimentAdmin)
 admin.site.register(Tokeni)
+admin.site.register(PravaPristupa)
 
