@@ -2,6 +2,9 @@
 
 $(document).ready(function() {
 
+	if (!window.conf.haveAccess)
+		return undefined
+
 	var enableWait = false;
 
 	function updates()

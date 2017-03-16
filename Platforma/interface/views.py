@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, HttpResponseForbidden, JsonResponse
 import django.contrib.auth
 from django.shortcuts import redirect
 from django.contrib.auth import authenticate
@@ -14,12 +14,10 @@ from interface.models import Tokeni
 # service
 import socket
 import sys
-from thread import *
 import time
 import json
 from Packages.Package import Package
 from Packages.PackageType import PackageType
-from thread import *
 import hashlib
 import datetime
 from Crypto.Cipher import AES
@@ -114,6 +112,12 @@ def platform_page(request, experimentID):
 	data["content"] = dict()
 	data["content"]["isLogin"] = request.user.is_authenticated
 	data["content"]["experiment"] = Experiment.objects.get(pk=experimentID)
+	data["content"]["haveAccess"] = False
+
+	if len(PravaPristupa.objects.filter(user_id_id = request.user.id, eksperiment_id_id  = experimentID).values()) > 0:
+		data["content"]["haveAccess"] = True
+	else:
+		return HttpResponseForbidden() # jedna verzija (ako nije moguce gledanje)
 
 	# filter video url (just yt support!!)
 	data["content"]["experiment"].demo_video = formatYTUrl(data["content"]["experiment"].demo_video)
@@ -132,13 +136,16 @@ def logout(request):
 # Zdravko - testing
 @login_required(login_url='/login')
 def service(request):
+	error = {"error": "unknown"}
+
 	if request.GET.get('eid') and request.GET.get('t'):
 		experimentID = request.GET['eid'];
 		requestType = request.GET['t']
 
-		exp = None
+		if len(PravaPristupa.objects.filter(user_id_id = request.user.id, eksperiment_id_id  = experimentID).values()) <= 0:
+			return JsonResponse(error)
 
-		error = {"error": "unknown"}
+		exp = None
 
 		try:
 			exp = Experiment.objects.get(pk=experimentID)
