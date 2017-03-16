@@ -113,6 +113,10 @@ def platform_page(request, experimentID):
 	data["content"]["isLogin"] = request.user.is_authenticated
 	data["content"]["experiment"] = Experiment.objects.get(pk=experimentID)
 	data["content"]["haveAccess"] = False
+	data["content"]["token"] = ""
+	token = Tokeni.objects.filter(user_id=request.user, eksperiment_id=Experiment.objects.get(pk=experimentID), endVreme__gte=datetime.datetime.now()).values()
+	if len(token) > 0:
+		data["content"]["token"] = token[0]["token"]
 
 	if len(PravaPristupa.objects.filter(user_id_id = request.user.id, eksperiment_id_id  = experimentID).values()) > 0:
 		data["content"]["haveAccess"] = True

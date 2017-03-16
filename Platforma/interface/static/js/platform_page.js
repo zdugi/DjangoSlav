@@ -6,6 +6,9 @@ $(document).ready(function() {
 		return undefined
 
 	var enableWait = false;
+	// init
+	updateWait()
+	// end init
 
 	function updates()
 	{

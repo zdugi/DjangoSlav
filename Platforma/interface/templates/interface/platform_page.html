@@ -7,7 +7,7 @@
 		<script type="text/javascript" src="{% static '/js/platform_page.js' %}"></script>
 
 	<script type="text/javascript">
-		window.conf = {id:"{{content.experiment.id}}", haveAccess: {% if content.haveAccess == True %}true{% else %}false{% endif %}, location:"http://{{content.experiment.adresa}}:{{content.experiment.port}}/"};
+		window.conf = {id:"{{content.experiment.id}}", haveAccess: {% if content.haveAccess == True %}true{% else %}false{% endif %}, location:"http://{{content.experiment.adresa}}:{{content.experiment.port}}/", token: "{{content.token}}"};
 	</script>
 {% endblock %}
 
