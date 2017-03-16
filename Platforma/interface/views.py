@@ -19,6 +19,7 @@ from Packages.PackageType import PackageType
 from thread import *
 import hashlib
 import datetime
+from Crypto.Cipher import AES
 # Create your views here.
 
 # @login_required(login_url='/login')
@@ -137,6 +138,9 @@ def service(request):
 
 		API_KEY = exp.apikey
 
+		key = API_KEY[:32];
+		iv = API_KEY[0:16];
+
 		HOST = ''
 
 		ADDRESS = exp.adresa
@@ -174,12 +178,14 @@ def service(request):
 			s.bind((HOST, 0))
 			s.connect((ADDRESS, PORT))
 			
-			s.sendall(data.getJSON())
+			cipher = AES.new(key, AES.MODE_CFB, iv)
+			s.sendall(cipher.encrypt(data.getJSON()))
 			time.sleep(0.1)
 			data = s.recv(1024)
 			s.close();
 
-			jsonData = json.loads(data)
+			cipher = AES.new(key, AES.MODE_CFB, iv)
+			jsonData = json.loads(cipher.decrypt(data))
 
 			if requestType == "token":
 				packOut = {"token_value": None}
