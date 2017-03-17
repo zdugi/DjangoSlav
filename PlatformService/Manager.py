@@ -8,7 +8,7 @@ class PlatformManager:
 	def __init__(self, maxInQueue = None, timePerSession = None):
 		self.queue = Queue()
 
-		self.timeBlock = timePerSession * 60#timePerSession 5 * 60s
+		self.timeBlock = timePerSession * 60 #timePerSession(mins) * 60s
 
 		self.chSession = ""
 		self.exp = None
@@ -31,8 +31,6 @@ class PlatformManager:
 
 			num = int(t/self.timeBlock)
 
-			#print("[CISTATICA] sad brisem: " + str(num))
-
 			for i in range(0, num):
 				if num == self.maxInQueue:
 					break
@@ -47,8 +45,6 @@ class PlatformManager:
 
 		self.c.acquire()
 
-		# value, start, period
-		# add session
 		self.queue.push(tok)
 
 		self.c.notify()
@@ -71,8 +67,6 @@ class PlatformManager:
 			self.exp - p
 
 	def isSessionValid(self, value):
-		#self.cistacica()
-
 		ind = False
 		
 		self.c.acquire()
