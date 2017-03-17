@@ -213,7 +213,7 @@ def service(request):
 
 				if "header" in jsonData and "message" in jsonData["header"] and jsonData["header"]["message"] == "successfully added":
 					packOut["token_value"] = token_value
-					
+					delta = int(jsonData["value"]["exp"])
 					# ubacuje token u bazu
 
 					t = datetime.datetime.now()
