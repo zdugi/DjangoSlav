@@ -60,6 +60,8 @@ def register(request):
 	
 	if request.method == "POST":
                 #username, email, password = cleaned_data['username'], cleaned_data['email'], cleaned_data['password1']
+                first_name = request.POST['first_name']
+                last_name = request.POST['last_name']
                 username = request.POST['username']
                 email = request.POST['email']
                 password = request.POST['password1']
@@ -67,16 +69,24 @@ def register(request):
                 
                 if User.objects.filter(username=username).exists():
                         data["register_error"] = True
-                        data["name_error"] = True
-                        data["error_message"] = "Postoji korisnik sa tavkim imenom"
+                        data["error_type"] = True
+                        if User.objects.filter(email=email).exists():
+                                data["error_message"] = "Postoji korisnik sa tavkim korisnickim imenom i email-om"
+                        else:
+                                data["error_message"] = "Postoji korisnik sa tavkim korisnickim imenom"
                 else:
                         if password == password2 and password != "":
-                                User.objects.create_user(username, email, password)
+                                new_user = User.objects.create_user(username, email, password)
+                                new_user.is_active = True
+                                new_user.first_name = first_name
+                                new_user.last_name = last_name
+                                new_user.save()
                                 user = authenticate(username=username, password=password)
                                 django.contrib.auth.login(request, user)
                                 return redirect('/');
                         else:
                                 data["register_error"] = True
+                                
                         
 	return render(request, 'interface/register.html', data)
 
@@ -92,8 +102,6 @@ def platform(request):
 	#data["experiments"] = Experiment.objects.all().order_by("-datum_kreiranja")
 	data["experiments1"] = Experiment.objects.exclude(id__in = prava).order_by("-datum_kreiranja")
        
-                
-	
 	return render(request, 'interface/platform.html', data)
 
 @login_required(login_url='/login')
@@ -120,9 +128,7 @@ def platform_page(request, experimentID):
 
 	if len(PravaPristupa.objects.filter(user_id_id = request.user.id, eksperiment_id_id  = experimentID).values()) > 0:
 		data["content"]["haveAccess"] = True
-	else:
-		return HttpResponseForbidden() # jedna verzija (ako nije moguce gledanje)
-
+		
 	# filter video url (just yt support!!)
 	data["content"]["experiment"].demo_video = formatYTUrl(data["content"]["experiment"].demo_video)
 

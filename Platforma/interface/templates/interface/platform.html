@@ -1,7 +1,8 @@
 {% extends "./includes/master.html" %}
 
 {% block link %}
-	
+	{% load staticfiles %} 
+		<link rel="stylesheet" type="text/css" href="{% static '/css/platform.css' %}">
 {% endblock %}
 
 {% block title %} Platform {% endblock %}
@@ -9,7 +10,7 @@
 {% block platformActivate %}class="active"{% endblock %}
 
 {% block content %}
-	<div class="container">
+	<div id="box" class="container-fluid">
 		<h1>PRIKAZ SVIH EKSPERIMENATA</h1>
 		<div class="table-responsive">
 			<table class="table table-bordered table-hover">
@@ -18,33 +19,25 @@
 					<th>Datum kreiranja</th>
 					<th>Naziv</th>
 					<th>Opis</th>
+					<th>Pristup eksperimentu</th>
 				  </tr>
 				</thead>
 				{% for experiment in experiments%}
-					<tr>
-						
+					<tr>	
 						<td>{{ experiment.datum_kreiranja|date:"Y-m-d" }}</td>
-						
-							<td><a href="/platform/{{experiment.id}}">{{ experiment.naziv }}</a></td>
-							
-						
-							
-						
+						<td><a href="/platform/{{experiment.id}}">{{ experiment.naziv }}</a></td>
 						<td>{{ experiment.opis }}</td>
+						{% load staticfiles %} 
+						<td><img src="{% static '/pics/true.png' %}" class="img-circle"></td>
 					</tr>
 				{% endfor %}
-				
 				{% for experiment in experiments1%}
-					<tr>
-						
+					<tr>	
 						<td>{{ experiment.datum_kreiranja|date:"Y-m-d" }}</td>
-						
-							<td>{{ experiment.naziv }}</td>
-							
-						
-							
-						
+						<td><a href="/platform/{{experiment.id}}">{{ experiment.naziv }}</a></td>
 						<td>{{ experiment.opis }}</td>
+						{% load staticfiles %} 
+						<td><img src="{% static '/pics/false.jpg' %}" class="img-circle"></td>
 					</tr>
 				{% endfor %}
 			</table>

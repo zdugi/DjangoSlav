@@ -1,0 +1,17 @@
+@media (min-width: 240px) {
+	#box h1 {
+		font-size: 1.7em;
+	}
+}
+
+@media (min-width: 1336px) {
+	#box {
+		margin-left: 10%;
+		margin-right: 10%;
+	}
+	
+	#box h1 {
+		font-size: 2.5em;
+	}
+
+}

@@ -21,8 +21,18 @@ class ExperimentAdmin(admin.ModelAdmin):
             return ['apikey', 'broj_pregleda',]
         else: # ako je obj none onda je add strana
             return []
+
+class TokenAdmin(admin.ModelAdmin):
+    list_display = ( 'user_id', 'eksperiment_id', 'startVreme', 'endVreme', 'token',)
+    readonly_fields = ( 'user_id', 'eksperiment_id', 'startVreme', 'endVreme', 'token',)
+    
+    def has_add_permission(self, request):
+        return False
+
+class PravaPristupaAdmin(admin.ModelAdmin):
+    list_display = ( 'user_id', 'eksperiment_id',)
             
 admin.site.register(Experiment, ExperimentAdmin)
-admin.site.register(Tokeni)
-admin.site.register(PravaPristupa)
+admin.site.register(Tokeni, TokenAdmin)
+admin.site.register(PravaPristupa, PravaPristupaAdmin)
 
