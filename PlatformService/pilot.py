@@ -11,7 +11,7 @@ import os
 print(os.getpid())
 
 manager = PlatformManager(timePerSession=1)
-service = Service(sys.path[0] + '/config.yml', manager, True)
+service = Service(sys.path[0] + '/config.yml', manager)
 start_new_thread(service.run, ())
 
 app = Flask(__name__)

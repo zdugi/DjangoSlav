@@ -5,7 +5,7 @@ import time
 from Utils.Red import Red as Queue
 
 class PlatformManager:
-	def __init__(self, maxInQueue = None, timePerSession = None):
+	def __init__(self, maxInQueue = None, timePerSession = 5):
 		self.queue = Queue()
 
 		self.timeBlock = timePerSession * 60 #timePerSession(mins) * 60s
@@ -79,10 +79,10 @@ class PlatformManager:
 		self.c.release()
 
 		return ind
-
+	'''
 	def endSession(self, value = None):
 		return self.queue.pop()
-
+	'''
 	def checkSession(self, value):
 		self.chSession = value
 

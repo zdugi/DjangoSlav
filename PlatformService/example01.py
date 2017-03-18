@@ -3,21 +3,16 @@ from Service import Service
 from Manager import PlatformManager
 from thread import *
 import sys
-from flask import Flask, request
+from flask import Flask, request, redirect
 
 import time
-
-# test
-import os
-print("Pid: " + str(os.getpid()))
-#test
 
 # Platform communication config
 
 CONFIG_FILE_PATH = sys.path[0] + '/config.yml' # full path
 
 manager = PlatformManager()
-service = Service(CONFIG_FILE_PATH, manager)
+service = Service(CONFIG_FILE_PATH, manager, debug=True)
 
 start_new_thread(service.run, ()) # start platform communication service
 
@@ -35,28 +30,31 @@ def isUserLogin():
 
 app = Flask(__name__)
 
-@app.route("/home")
-def home():
-	return "Home"
-
+# setting token to cookie
 @app.route("/")
 def index():
-	if isUserLogin():
-		return "<p>You are login!</p><br><p>Login time: " + str(manager.getCurSessionTime()) + "</p>" + "<a href='http://localhost:5000/out'>Logout</a>"
-	return "<p>" + "You are not login!</p> <a href='http://localhost:5000/set'>Login now</a>"
+	redirect_to_index = redirect('/home')
+	response = app.make_response(redirect_to_index )
 
-@app.route("/set")
-def set():
-	if not isUserLogin():
-		return "<script> var val = prompt('enter cookie'); document.cookie=\"platform=\" + val; window.location.href='http://localhost:5000/'</script>"
-	return "Wrong request!"
+	token = request.args.get("stoken")
 
-@app.route("/out")
-def out():
+	if token != None and manager.isSessionValid(token):
+		response.set_cookie('platform',value=token)
+
+	return response
+
+@app.route("/home")
+def home():
 	if isUserLogin():
-		manager.endSession()
-		return "<p>Out</p><script>window.location.href='http://localhost:5000/'</script>"
-	return "<p>Error</p>"
+		return "<p>Home</p><p>Your time: " + "(" + str(manager.getCurSessionTime()) + ")</p>"
+
+	redirect_to_index = redirect('/error')
+	response = app.make_response(redirect_to_index )
+	return response
+
+@app.route("/error")
+def error():
+	return "Ups!"
 
 if __name__ == "__main__":
 	app.run()
