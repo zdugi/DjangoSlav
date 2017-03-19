@@ -33,6 +33,14 @@ def home(request):
 
 	return render(request, 'interface/home.html', data)
 
+
+def about(request):
+	data = dict()
+	data["content"] = dict()
+	data["content"]["isLogin"] = request.user.is_authenticated
+
+	return render(request, 'interface/elektrolit.html', data)
+
 def login(request):
 	if request.user.is_authenticated:
 		return redirect('/');

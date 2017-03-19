@@ -1,0 +1,55 @@
+{% extends "./includes/master.html" %}
+
+{% block title %} Elektrolit {% endblock %}
+
+{% block content %}
+	<div class="jumbotron">
+		<div style="padding: 20px">
+			<h1>Elektrolit</h1>
+			<p>
+				Elektrolit je platforma namenjena za upravljanje pristupa na školske RPi projekte sa web interfejsom. Projekat je otvoren, ako želite da preuzmete izvorni kod ili da pratite razvoj platforme posetite naš git repozitorijum. Za sve dodatne informacije možete pitati administratora ili startujte (za patike) nekog od nas.
+			</p>
+			<p><a class="btn btn-primary btn-lg" href="https://github.com/zdugi/DjangoSlav" role="button">Poseti repozitorijum</a></p>
+		</div>
+	</div>
+	<div class="container marketing">
+		<div class="row">
+			<div class="col-sm-6 col-md-3">
+				<div class="thumbnail">
+					{% load staticfiles %}
+					<img src="{% static '/pics/dugi.jpg' %}" alt="Здравко Слав Дугоњић">
+					<div class="caption">
+						<h3>Dugi</h3>
+						<p>
+							Github: <a href="https://github.com/zdugi">zdugi</a>
+						</p>
+      				</div>
+    			</div>
+  			</div>
+  		<div class="col-sm-6 col-md-3">
+  			<div class="thumbnail">
+  				{% load staticfiles %}
+  				<img src="{% static '/pics/roki.png' %}" alt="Vladimir Rodušek">
+  				<div class="caption">
+  					<h3>Roki</h3>
+  					<p>
+  						Github: <a href="https://github.com/roki021">roki021</a>
+  					</p>
+  				</div>
+  			</div>
+  		</div>
+  		<div class="col-sm-6 col-md-3">
+  			<div class="thumbnail">
+  				{% load staticfiles %}
+  				<img src="{% static '/pics/jokan.png' %}" alt="Milan Jokanović">
+  				<div class="caption">
+  					<h3>Jokan</h3>
+  					<p>
+  						Github: <a href="https://github.com/milanjokanovic">milanjokanovic</a>
+  					</p>
+  				</div>
+  			</div>
+  		</div>
+  		</div>
+	</div>
+{% endblock %}
