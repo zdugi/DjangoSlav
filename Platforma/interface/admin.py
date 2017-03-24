@@ -2,6 +2,7 @@ from django.contrib import admin
 from interface.models import Experiment
 from interface.models import Tokeni
 from interface.models import PravaPristupa
+from interface.models import Poruke
 
 class ExperimentAdmin(admin.ModelAdmin):
     list_display = ( 'naziv', 'apikey', 'adresa', 'datum_kreiranja')
@@ -31,8 +32,16 @@ class TokenAdmin(admin.ModelAdmin):
 
 class PravaPristupaAdmin(admin.ModelAdmin):
     list_display = ( 'user_id', 'eksperiment_id',)
+
+class PorukeAdmin(admin.ModelAdmin):
+    list_display = ( 'user_id', 'odgovor', 'datum_slanja',)
+    readonly_fields = ( 'user_id', 'odgovor', 'datum_slanja', "sadrzaj")
+    
+    def has_add_permission(self, request):
+        return False
             
 admin.site.register(Experiment, ExperimentAdmin)
 admin.site.register(Tokeni, TokenAdmin)
 admin.site.register(PravaPristupa, PravaPristupaAdmin)
+admin.site.register(Poruke, PorukeAdmin)
 

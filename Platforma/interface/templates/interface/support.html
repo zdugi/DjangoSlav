@@ -1,9 +1,50 @@
 {% extends "./includes/master.html" %}
 
-{% block title %} Support {% endblock %}
+{% block link %}
+	{% load staticfiles %} 
+	<link rel="stylesheet" type="text/css" href="{% static '/css/support.css' %}">
+{% endblock %}
 
-{% block supportActivate %}class="active"{% endblock %}
+{% block title %}
+	Podrška 
+{% endblock %}
+
+{% block supportActivate %}
+	class="active"
+{% endblock %}
 
 {% block content %}
-<p>Support page</p>
+	<div class="container-fluid">
+		<h1 id="fade">DOBRODOŠLI NA STRANU NAŠE PODRŠKE</h1>
+		</br>
+		<p id="paragraf" class="text-justify">Za svaku nedoumicu ili problem, pošaljite poruku našoj podršci. Biće vam odgovoreno na email u roku od 24h.</p>
+	</div>
+	<div id="colorbar">
+	</div>
+	</br>
+	<form action="#" method="POST">
+		{% csrf_token %}
+		<div id="message-block" class="well-lg">
+			<p id="paragraf" class="text-justify">Unesite vaš komentar, poruku ili primedbu:</p>
+			<textarea name="sadrzaj" class="area" rows="10" placeholder="Vaša poruka..."></textarea>
+		</div>
+		</br>
+		<button type="submit" class="btn btn-primary btn-lg">Pošalji</button>
+		{% if message_error == True %}
+			<div class="alert alert-danger" role="alert">
+				<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+				<span class="sr-only">Error:</span>
+				Nemate pravo na slanje!
+			</div>
+			</br>
+		{% endif %}
+		{% if message_success == True %}
+			<div class="alert alert-success" role="alert">
+				<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+				<span class="sr-only">Error:</span>
+				Vaša poruka je poslata!
+			</div>
+			</br>
+		{% endif %}
+	</form>
 {% endblock %}

@@ -1,13 +1,17 @@
+from django.conf import settings
 from django.shortcuts import render
+from django.core.mail import send_mail
 from django.http import HttpResponse, HttpResponseForbidden, JsonResponse
 import django.contrib.auth
 from django.shortcuts import redirect
+from django.utils import timezone
 from django.contrib.auth import authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from interface.models import Experiment
 from interface.Utils import formatYTUrl
 from interface.models import PravaPristupa
+from interface.models import Poruke
 
 from interface.models import Tokeni
 
@@ -79,7 +83,7 @@ def register(request):
                         data["register_error"] = True
                         data["error_type"] = True
                         if User.objects.filter(email=email).exists():
-                                data["error_message"] = "Postoji korisnik sa tavkim korisnickim imenom i email-om"
+                                data["error_message"] = "Postoji korisnik sa tavkim korisnikim imenom i email-om"
                         else:
                                 data["error_message"] = "Postoji korisnik sa tavkim korisnickim imenom"
                 else:
@@ -118,6 +122,36 @@ def support(request):
 	data = dict()
 	data["content"] = dict()
 	data["content"]["isLogin"] = request.user.is_authenticated
+	
+	if request.method == "POST":
+	    sadrzaj = request.POST['sadrzaj']
+	    user_id = request.user
+	    datum = timezone.now()
+
+            exist = False
+	    if Poruke.objects.filter(user_id = user_id).exists():
+                poruke = Poruke.objects.filter(user_id = user_id)
+                datum = datum + datetime.timedelta(days=-2)
+                for p in poruke:
+                    if p.datum_slanja > datum:
+                        exist = True
+                            
+            if exist == False:
+                poruka = Poruke(user_id = user_id, sadrzaj = sadrzaj, datum_slanja = timezone.now())
+                poruka.save()
+                subject = settings.EMAIL_PREFIX + " " + user_id.first_name + " " + user_id.last_name + " " + timezone.now().strftime('%Y-%m-%d')
+                message = "\n" + sadrzaj + "\n\nMolim vas odgovorite na ovaj email " + user_id.email + "\n\nHvala unapred, \nplatforma tim"
+                from_email = settings.EMAIL_HOST_USER
+                admins = User.objects.filter(is_superuser = 1)
+                to_list = []
+                for admin in admins:
+                        to_list.append(admin.email)
+
+                send_mail(subject, message, from_email, to_list, fail_silently=True)
+                data["message_success"] = True
+            else:
+                data["message_error"] = True
+
 	
 	return render(request, 'interface/support.html', data)
 

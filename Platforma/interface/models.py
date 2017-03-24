@@ -54,3 +54,15 @@ class PravaPristupa(models.Model):
         class Meta:
                 verbose_name = "Pravo pristupa"
                 verbose_name_plural = "Prava pristupa"
+
+
+class Poruke(models.Model):
+        sadrzaj = models.TextField()
+        odgovor = models.BooleanField(null=False, default=False)
+        datum_slanja = models.DateTimeField(null=False)
+        user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+
+        class Meta:
+                verbose_name = "Poruka"
+                verbose_name_plural = "Poruke"
+
