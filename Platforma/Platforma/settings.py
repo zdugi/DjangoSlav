@@ -9,13 +9,14 @@ https://docs.djangoproject.com/en/1.10/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.10/ref/settings/
 """
+from .email_info import *
 
-EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'djangoservice@gmail.com'
-EMAIL_HOST_PASSWORD = 'django021'
-EMAIL_PORT = 587
-EMAIL_PREFIX = '[PLATFORMA] '
+EMAIL_USE_TLS = EMAIL_USE_TLS
+EMAIL_HOST = EMAIL_HOST
+EMAIL_HOST_USER = EMAIL_HOST_USER
+EMAIL_HOST_PASSWORD = EMAIL_HOST_PASSWORD
+EMAIL_PORT = EMAIL_PORT
+EMAIL_PREFIX = EMAIL_PREFIX
 
 import os
 

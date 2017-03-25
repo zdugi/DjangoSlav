@@ -17,34 +17,35 @@
 	<div class="container-fluid">
 		<h1 id="fade">DOBRODOŠLI NA STRANU NAŠE PODRŠKE</h1>
 		</br>
-		<p id="paragraf" class="text-justify">Za svaku nedoumicu ili problem, pošaljite poruku našoj podršci. Biće vam odgovoreno na email u roku od 24h.</p>
-	</div>
-	<div id="colorbar">
-	</div>
-	</br>
-	<form action="#" method="POST">
-		{% csrf_token %}
-		<div id="message-block" class="well-lg">
-			<p id="paragraf" class="text-justify">Unesite vaš komentar, poruku ili primedbu:</p>
-			<textarea name="sadrzaj" class="area" rows="10" placeholder="Vaša poruka..."></textarea>
-		</div>
+		<p class="paragraf" class="text-justify">Za svaku nedoumicu ili problem, pošaljite poruku našoj podršci. Biće vam odgovoreno na email u roku od 24h.</p>
 		</br>
-		<button type="submit" class="btn btn-primary btn-lg">Pošalji</button>
-		{% if message_error == True %}
-			<div class="alert alert-danger" role="alert">
-				<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-				<span class="sr-only">Error:</span>
-				Nemate pravo na slanje!
-			</div>
+		<form id="forma" class="form-group" action="#" method="POST">
+			{% csrf_token %}
+			<h3 class="text-justify"><b>Kontaktirajte podršku</b></h3>
 			</br>
-		{% endif %}
-		{% if message_success == True %}
-			<div class="alert alert-success" role="alert">
-				<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-				<span class="sr-only">Error:</span>
-				Vaša poruka je poslata!
-			</div>
 			</br>
-		{% endif %}
-	</form>
+			<p class="paragraf">Naslov</p>
+			<input class="form-control" type="text" name="subject">
+			</br>
+			<p class="paragraf">Komentar</p>
+			<textarea name="sadrzaj" class="form-control area" rows="10"></textarea>
+			<button type="submit" class="btn btn-info btn-lg">Pošalji</button>
+			{% if message_error == True %}
+				<div class="alert alert-danger" role="alert">
+					<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+					<span class="sr-only">Error:</span>
+					Nemate pravo na slanje!
+				</div>
+				</br>
+			{% endif %}
+			{% if message_success == True %}
+				<div class="alert alert-success" role="alert">
+					<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+					<span class="sr-only">Error:</span>
+					Vaša poruka je poslata!
+				</div>
+				</br>
+			{% endif %}
+		</form>
+	</div>
 {% endblock %}

@@ -125,6 +125,7 @@ def support(request):
 	
 	if request.method == "POST":
 	    sadrzaj = request.POST['sadrzaj']
+	    naslov = request.POST['subject']
 	    user_id = request.user
 	    datum = timezone.now()
 
@@ -139,8 +140,8 @@ def support(request):
             if exist == False:
                 poruka = Poruke(user_id = user_id, sadrzaj = sadrzaj, datum_slanja = timezone.now())
                 poruka.save()
-                subject = settings.EMAIL_PREFIX + " " + user_id.first_name + " " + user_id.last_name + " " + timezone.now().strftime('%Y-%m-%d')
-                message = "\n" + sadrzaj + "\n\nMolim vas odgovorite na ovaj email " + user_id.email + "\n\nHvala unapred, \nplatforma tim"
+                subject = settings.EMAIL_PREFIX + " " + naslov + " " + timezone.now().strftime('%Y-%m-%d')
+                message = "Poruka od " + user_id.first_name + " " + user_id.last_name + "\n\n" + sadrzaj + "\n\nMolim vas odgovorite na ovaj email " + user_id.email + "\n\nHvala unapred, \nPlatforma tim"
                 from_email = settings.EMAIL_HOST_USER
                 admins = User.objects.filter(is_superuser = 1)
                 to_list = []

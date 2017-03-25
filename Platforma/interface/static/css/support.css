@@ -1,20 +1,35 @@
 @media (min-width: 240px) {
 	#fade {
-		font-size: 1.7em;
+		font-size: 1.9em;
 	}
 	
-	#paragraf {
-		font-size: 1em;
+	#forma {
+		margin: 0px auto;
+	}
+	
+	.paragraf {
+		font-size: 1.2em;
 	}
 		
-	.area {
-		font-size: 1em;
+	.alert {
+		height: 50px;
+	}
+	
+	.btn {
+		width: 100%;
+	}
+}
+
+@media (min-width: 600px) {
+	.btn {
+		width: 25%;
+		float: left;
 	}
 	
 	.alert {
-		margin-left: 28%;
-		margin-right: 5%;
-		height: 60px;
+		margin-left: 30%;
+		margin-right: 0px;
+		height: 50px;
 	}
 }
 
@@ -23,51 +38,44 @@
 		font-size: 2.5em;
 	}
 	
-	#paragraf {
+	#forma {
+		margin-left: 20%;
+		margin-right: 20%;
+	}
+	
+	.paragraf {
 		font-size: 1.5em;
 	}
 	
-	.area {
-		font-size: 1.5em;
-	}
 	.alert {
-		margin-left: 12%;
-		margin-right: 60%;
-		height: 60px;
+		margin-left: 30%;
+		margin-right: 0px;
+		height: 50px;
+	}
+	
+	.btn {
+		width: 25%;
+		float: left;
 	}
 }
 
 .btn {
-	margin-left: 2%;
-	height: 60px;
-	float: left;
+	height: 50px;
+	margin-bottom: 10px;
 }
 
 .area {
-	resize: none;
-	width: 100%;
-	border: 2px black;
-	border-style: ridge;
+	resize: vertical;
+	margin-bottom: 20px;
 }
 
-#message-block {
-	background-color: #337ab7;
-	border-radius: 0px;
-}
-
-#message-block > p {
-	color: white;
-}
-
-#colorbar {
-	background-color: #ddd;
-	width:100%;
-	height: 50px;
-}
-
-#paragraf {
-	font-weight: bold;
+.paragraf {
 	color: black;
+}
+
+#forma > input {
+	height: 40px;
+	font-size: 15px;
 }
 
 #fade {
@@ -106,5 +114,4 @@
 @-o-keyframes fadein {
     from { opacity: 0; }
     to   { opacity: 1; }
-}
 }

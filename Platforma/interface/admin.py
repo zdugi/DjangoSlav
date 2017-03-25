@@ -35,7 +35,7 @@ class PravaPristupaAdmin(admin.ModelAdmin):
 
 class PorukeAdmin(admin.ModelAdmin):
     list_display = ( 'user_id', 'odgovor', 'datum_slanja',)
-    readonly_fields = ( 'user_id', 'odgovor', 'datum_slanja', "sadrzaj")
+    readonly_fields = ( 'user_id', 'datum_slanja', "sadrzaj")
     
     def has_add_permission(self, request):
         return False
